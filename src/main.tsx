@@ -1,9 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import ProfileCard from './components/ProfileCard'
-<link href="/src/style.css" rel="stylesheet"></link>
+import App from './App.tsx'
 
-return {
-  </ProfileCard>
-}
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
