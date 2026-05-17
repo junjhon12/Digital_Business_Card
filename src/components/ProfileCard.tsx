@@ -5,29 +5,33 @@ type ProfileCardProps = {
     currentRole: string;
     shortBio: string;
     skills: string[];
+    userImage: string;
 };
 
-const ProfileCard = ({ name, currentRole, shortBio, skills }: ProfileCardProps) => {
-    const [likeCount, setLikeCount] = useState(() => {
+const ProfileCard = ({ name, currentRole, shortBio, skills, userImage }: ProfileCardProps) => {
+    const [likeCount, setLikeCount] = useState<number>(() => {
         const savedLikes = localStorage.getItem('likes');
-        return savedLikes ? JSON.parse(savedLikes) : 0;
-    })
-    const handleLikeCount = () => { setLikeCount((prev: number) => prev + 1); };
+        return savedLikes ? parseInt(savedLikes, 10) : 0;
+    });
+
+    const handleLikeCount = () => { setLikeCount((prev) => prev + 1); };
+
     useEffect(() => {
         localStorage.setItem('likes', likeCount.toString())
-    },[likeCount])
+    }, [likeCount]);
+
     return (
-        // Added Tailwind classes for a sleek, dark-mode card look
         <div className="bg-slate-800 p-8 rounded-2xl shadow-xl max-w-sm text-center border border-slate-400 flex flex-col justify-start">
+            <img 
+                src={userImage} 
+                alt={`Profile picture of ${name}`} 
+                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-700 object-cover" 
+            />
             <p className="text-5xl font-bold text-white mb-1">{name}</p>
             <p className="text-md font-medium text-emerald-400 mb-1">{currentRole}</p>
             <p className="text-slate-300 mb-7 leading-relaxed">{shortBio}</p>
             
-            {/* Flexbox container for the badges */}
             <div className="flex flex-wrap justify-center gap-1">
-                {/* Using .map() to loop through the skills array.
-                  React requires a unique "key" prop when mapping elements!
-                */}
                 {skills.map((skill, index) => (
                     <span 
                         key={index} 
@@ -37,6 +41,7 @@ const ProfileCard = ({ name, currentRole, shortBio, skills }: ProfileCardProps) 
                     </span>
                 ))}
             </div>
+            
             <div className="mt-6 pt-6 border-t border-slate-700 flex items-center justify-between">
                 <button 
                     onClick={handleLikeCount} 
@@ -48,7 +53,6 @@ const ProfileCard = ({ name, currentRole, shortBio, skills }: ProfileCardProps) 
                     Likes: <span className="text-emerald-400 font-bold">{likeCount}</span>
                 </p>    
             </div>
-            
         </div>
     );
 };
