@@ -9,9 +9,9 @@ function App() {
   return (
     <div className="h-dvh w-screen flex items-center justify-center">
       <ProfileCard
-        name='Quoc Bao Le'
-        currentRole='Full-Stack Web Developer'
-        shortBio='A Computer Science Graduate based inGeorgia focusing in Full-Stack Web Development.'
+        name='A'
+        currentRole='B'
+        shortBio='C'
         skills={mySkills}
       />
     </div>

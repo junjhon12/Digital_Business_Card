@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 type ProfileCardProps = {
     name: string;
@@ -8,6 +8,14 @@ type ProfileCardProps = {
 };
 
 const ProfileCard = ({ name, currentRole, shortBio, skills }: ProfileCardProps) => {
+    const [likeCount, setLikeCount] = useState(() => {
+        const savedLikes = localStorage.getItem('likes');
+        return savedLikes ? JSON.parse(savedLikes) : 0;
+    })
+    const handleLikeCount = () => { setLikeCount((prev: number) => prev + 1); };
+    useEffect(() => {
+        localStorage.setItem('likes', likeCount.toString())
+    },[likeCount])
     return (
         // Added Tailwind classes for a sleek, dark-mode card look
         <div className="bg-slate-800 p-8 rounded-2xl shadow-xl max-w-sm text-center border border-slate-400 flex flex-col justify-start">
@@ -29,6 +37,18 @@ const ProfileCard = ({ name, currentRole, shortBio, skills }: ProfileCardProps) 
                     </span>
                 ))}
             </div>
+            <div className="mt-6 pt-6 border-t border-slate-700 flex items-center justify-between">
+                <button 
+                    onClick={handleLikeCount} 
+                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold rounded-lg transition-colors"
+                >
+                    👍 Like Profile
+                </button>
+                <p className="text-slate-300 font-medium">
+                    Likes: <span className="text-emerald-400 font-bold">{likeCount}</span>
+                </p>    
+            </div>
+            
         </div>
     );
 };
